@@ -1,4 +1,4 @@
-import { Col, Container, Navbar, Row } from "react-bootstrap";
+import { Container, Navbar } from "react-bootstrap";
 import { FaDog } from "react-icons/fa";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import "./style/stylesheet.scss";
