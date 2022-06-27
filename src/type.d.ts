@@ -6,7 +6,7 @@ type FavoriteState = {
   
   type FavoriteAction = {
     type: string
-    favorite: IFavorite
+    favorite?: IFavorite
   }
 
     

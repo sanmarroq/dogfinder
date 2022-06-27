@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { FavoriteState } from "../type";
-import IFavorite from "../types/Favorite";
-import { AllBreeds } from "./AllBreeds";
+import { Link, useNavigate } from "react-router-dom";
 import { FavoriteBreed } from "./FavoriteBreed";
 export const Home = () => {
-
+  const navigate = useNavigate();
   const [filter, setFilter] = useState("");
 
+  const goToAllElements = () => {
+    navigate(`/allbreeds/${filter}`);
+  };
   return (
-    <Container>
+    <Container className="dogBackgroundImageHome " fluid>
       <Row>
         <Col className="text-center mt-5">
-          <h1>Dog Finder</h1>
+          <h1>Explore All The Dog Breeds</h1>
         </Col>
       </Row>
-      <Row className="justify-content-md-center mt-5">
+      <Row className="justify-content-md-center mt-5 mb-3">
         <Col md="4" className="text-center">
           <Form.Group className="mb-3" controlId="breedText">
-            <Form.Control type="text" placeholder="Breed Name"  onChange={e => setFilter( e.target.value )} />
-            <Form.Text className="text-muted">Type a breed of dog</Form.Text>
+            <Form.Control
+              autoComplete="false"
+              type="text"
+              placeholder="Type a breed..."
+              onChange={(e) => setFilter(e.target.value)}
+            />
+            <Button className="d-inline mt-3" onClick={goToAllElements}>
+              Go
+            </Button>
+            <p className="text-center mt-3">
+              Or just see all <Link to="/allbreeds">here</Link>
+            </p>
           </Form.Group>
         </Col>
       </Row>
       <FavoriteBreed />
-      <AllBreeds name={filter} />
     </Container>
   );
 };

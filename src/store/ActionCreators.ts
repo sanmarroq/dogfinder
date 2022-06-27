@@ -12,10 +12,10 @@ export function AddFavorite(favorite: IFavorite) {
   };
 }
 
-export function RemoveFavorite(favorite: IFavorite) {
+export function RemoveFavorite() {
     const action: FavoriteAction = {
       type: actionTypes.REMOVE_FAVORITE,
-      favorite,
+      favorite:undefined,
     };
     return (dispatch: DispatchType) => {
       dispatch(action);

@@ -1,42 +1,101 @@
-import { FaHeart } from "react-icons/fa";
-import { Col, Row, Card, Button } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
+import { FaHeart, FaHeartBroken } from "react-icons/fa";
+import { Col, Row, Button, Modal } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { FavoriteState } from "../type";
 import IFavorite from "../types/Favorite";
-export const FavoriteBreed = () => {
+import { Dispatch, useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
+import RequestService from "../services/RequestService";
+import ICustomResponse from "../types/CustomResponse";
+import { RemoveFavorite } from "../store/ActionCreators";
+import Image from "react-bootstrap/Image";
 
-    const favorite: IFavorite|undefined = useSelector(
-        (state: FavoriteState) => state.favorite,
-        shallowEqual
-      )
-  return (
-    <>
-      <Row className="justify-content-md-center">
-        <Col md="4" className="text-center">
-          <h2 className="d-inline">
-            <FaHeart size={50} /> {favorite?.variant}
-          </h2>
-        </Col>
-      </Row>
-      <Row className="justify-content-md-center">
-        <Col md="3" className="text-center">
-        
-          <Card style={{ width: "11rem" }} className="text-center"> 
-            <Card.Img
-              variant="top"
-              src="https://www.akc.org/wp-content/uploads/2017/11/Siberian-Husky-standing-outdoors-in-the-winter.jpg"
-            />
-            <Card.Body>
-              <Card.Title>My Favorite dog</Card.Title>
-              <Card.Text>
-                Some 
-              </Card.Text>
-              <Button variant="primary">Show</Button>
-            </Card.Body>
-          </Card>
-         
-        </Col>
-      </Row>
-    </>
+export const FavoriteBreed = () => {
+  const [show, setShow] = useState(false);
+  const [image, setImage] = useState<string>("");
+  const dispatch: Dispatch<any> = useDispatch();
+  const [favorite, setFavorite] = useState<IFavorite | undefined>(undefined);
+  const favoriteData: IFavorite | undefined = useSelector(
+    (state: FavoriteState) => state.favorite,
+    shallowEqual
   );
+
+  useEffect(() => {
+    if (favoriteData) {
+      setFavorite(favoriteData);
+      getVariantImages();
+    }
+  }, [favoriteData]);
+
+  const RemoveFavoriteBreed = () => {
+    setFavorite(undefined);
+    dispatch(RemoveFavorite);
+  };
+
+  const getVariantImages = () => {
+    RequestService.GetBreedVariantImages(
+      favoriteData?.breed!,
+      favoriteData?.variant!
+    )
+      .then((response: AxiosResponse<ICustomResponse<string[]>>) => {
+        setImage(response.data.message.shift() ?? "");
+        console.log(response);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+  const handleShow = () => setShow(true);
+
+  const handleClose = () => setShow(false);
+
+  if (favorite !== undefined && favorite?.breed !== "") {
+    return (
+      <>
+        <Row className="justify-content-md-center mb-2">
+          <Col md="4" className="text-center">
+            <h3
+              className="d-inline favoriteTextTitle capitalize"
+              onClick={handleShow}
+            >
+              <FaHeart className="heartStyle" size={40} /> See your favorite{" "}
+              <a className="favoriteTextTitle" href="#">
+                {" "}
+                {favorite?.breed} - {favorite?.variant}
+              </a>
+            </h3>
+          </Col>
+        </Row>
+
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title className="capitalize">
+              {favorite?.breed} {favorite?.variant}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Image width={450} src={image} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={RemoveFavoriteBreed} variant="primary">
+              Remove
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Row className="justify-content-md-center">
+          <Col md="4" className="text-center">
+            <h3 className="d-inline favoriteTextTitle">
+              <FaHeartBroken className="heartStyle" size={40} /> Here you will
+              see your favorite breed
+            </h3>
+          </Col>
+        </Row>
+      </>
+    );
+  }
 };

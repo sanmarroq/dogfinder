@@ -1,0 +1,85 @@
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow-y: auto;
+}
+
+h1,
+h2 {
+  color: white;
+}
+
+h2 {
+  color: #ffb84d;
+}
+
+h5 {
+  color: white;
+}
+
+td {
+  color: #3655b3 !important;
+}
+
+button {
+  width: 10rem;
+  border-radius: 15px !important;
+  background-color: #3655b3 !important;
+  border: none !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.secondaryTitleColor {
+  color: #000000;
+}
+
+.favoriteTextTitle {
+  color: #000000;
+}
+
+.CarrouselImage {
+  max-width: 40rem;
+  max-height: 50rem;
+}
+
+.heartStyle {
+  color: red;
+}
+
+.container-fluid {
+  height: 100% !important;
+}
+
+.dogBackgroundImageHome {
+  background-image: url("../images/french-bulldog-eating-on-bowl-e0l6vnrrpkrmnt1g.jpg") !important;
+  width: 100%;
+  height: auto;
+  background-size: cover;
+}
+
+.dogBackgroundImageAllBreeds {
+  width: 100%;
+  height: auto;
+  background-size: cover;
+}
+
+.form-control {
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.underlineText {
+  border-bottom: 2px solid #000;
+}

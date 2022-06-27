@@ -15,8 +15,8 @@ const reducer = (
     switch (action.type) {
       case actionTypes.ADD_FAVORITE:
         const newFavorite: IFavorite = {
-          breed: action.favorite.breed,
-          variant: action.favorite.variant,
+          breed: action.favorite!.breed,
+          variant: action.favorite!.variant
         }
         return {
           ...state,
